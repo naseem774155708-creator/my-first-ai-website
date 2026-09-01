@@ -719,7 +719,191 @@ href="https://wa.me/967774155708">
 
 </footer>
 
+<!-- AI CHATBOT -->
+<div id="chatbot">
 
+    <div id="chat-header">
+        🤖 مساعد ذكي تك
+        <button onclick="toggleChat()">×</button>
+    </div>
+
+    <div id="chat-messages">
+        <div class="bot-message">
+            مرحبًا 👋 أنا مساعد ذكي تك. كيف يمكنني مساعدتك؟
+        </div>
+    </div>
+
+    <div id="chat-input">
+        <input
+            id="user-message"
+            type="text"
+            placeholder="اكتب سؤالك هنا..."
+        >
+
+        <button onclick="sendMessage()">
+            إرسال
+        </button>
+    </div>
+
+</div>
+
+<button id="chat-button" onclick="toggleChat()">
+    🤖
+</button>
+
+<style>
+
+#chat-button{
+    position:fixed;
+    bottom:20px;
+    left:20px;
+    width:60px;
+    height:60px;
+    border:none;
+    border-radius:50%;
+    background:#155eef;
+    color:white;
+    font-size:26px;
+    cursor:pointer;
+    z-index:9999;
+}
+
+#chatbot{
+    display:none;
+    position:fixed;
+    bottom:90px;
+    left:20px;
+    width:330px;
+    max-width:calc(100% - 40px);
+    background:white;
+    border-radius:18px;
+    box-shadow:0 10px 40px rgba(0,0,0,.2);
+    overflow:hidden;
+    z-index:9999;
+}
+
+#chat-header{
+    background:#155eef;
+    color:white;
+    padding:15px;
+    font-weight:bold;
+    display:flex;
+    justify-content:space-between;
+}
+
+#chat-header button{
+    background:none;
+    border:none;
+    color:white;
+    font-size:22px;
+}
+
+#chat-messages{
+    height:280px;
+    padding:15px;
+    overflow-y:auto;
+}
+
+.bot-message,
+.user-message{
+    padding:10px;
+    margin-bottom:10px;
+    border-radius:10px;
+}
+
+.bot-message{
+    background:#eef4ff;
+}
+
+.user-message{
+    background:#155eef;
+    color:white;
+}
+
+#chat-input{
+    display:flex;
+    padding:10px;
+    border-top:1px solid #eee;
+}
+
+#chat-input input{
+    flex:1;
+    padding:10px;
+    border:1px solid #ddd;
+    border-radius:8px;
+}
+
+#chat-input button{
+    margin-right:5px;
+    padding:10px 14px;
+    background:#155eef;
+    color:white;
+    border:none;
+    border-radius:8px;
+}
+
+</style>
+
+<script>
+
+function toggleChat(){
+
+    const chat = document.getElementById("chatbot");
+
+    if(chat.style.display === "none" || chat.style.display === ""){
+        chat.style.display = "block";
+    }else{
+        chat.style.display = "none";
+    }
+
+}
+
+
+function sendMessage(){
+
+    const input = document.getElementById("user-message");
+
+    const message = input.value.trim();
+
+    if(message === "") return;
+
+    const messages = document.getElementById("chat-messages");
+
+    messages.innerHTML +=
+        '<div class="user-message">' +
+        message +
+        '</div>';
+
+    let reply =
+        "شكرًا لسؤالك 👋 يمكنك التواصل معنا لمعرفة المزيد عن خدمات ذكي تك.";
+
+    if(message.includes("خدمات")){
+        reply =
+        "نقدم تصميم المواقع، حلول الذكاء الاصطناعي، أتمتة الأعمال وخدمات العملاء.";
+    }
+
+    if(message.includes("موقع")){
+        reply =
+        "نستطيع إنشاء مواقع احترافية ومتوافقة مع الهاتف.";
+    }
+
+    if(message.includes("ذكاء")){
+        reply =
+        "نقدم حلولًا تعتمد على الذكاء الاصطناعي لمساعدة أصحاب الأعمال.";
+    }
+
+    messages.innerHTML +=
+        '<div class="bot-message">' +
+        reply +
+        '</div>';
+
+    input.value = "";
+
+    messages.scrollTop = messages.scrollHeight;
+
+}
+
+    </script>
 </body>
 
     </html>
