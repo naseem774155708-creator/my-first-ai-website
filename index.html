@@ -1,123 +1,346 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>موقع تجريبي بالذكاء الاصطناعي</title>
+<title>ذكي تك | حلول الذكاء الاصطناعي</title>
+
+<meta name="description"
+content="حلول رقمية وذكاء اصطناعي تساعد أصحاب الأعمال على تطوير مواقعهم وخدمة عملائهم.">
 
 <style>
 
 *{
-    box-sizing:border-box;
     margin:0;
     padding:0;
+    box-sizing:border-box;
+    scroll-behavior:smooth;
 }
 
 body{
     font-family:Arial,Tahoma,sans-serif;
-    background:#f5f8fc;
+    background:#f7f9fc;
     color:#172033;
     line-height:1.8;
 }
 
 header{
-    background:#0b5cff;
-    color:white;
-    padding:20px;
+    position:sticky;
+    top:0;
+    z-index:1000;
+    background:rgba(255,255,255,.95);
+    border-bottom:1px solid #e5e7eb;
 }
 
 nav{
-    max-width:1100px;
+    max-width:1150px;
     margin:auto;
+    padding:18px 20px;
     display:flex;
     justify-content:space-between;
     align-items:center;
 }
 
 .logo{
-    font-size:24px;
+    font-size:25px;
+    font-weight:bold;
+    color:#155eef;
+}
+
+.nav-links{
+    display:flex;
+    gap:25px;
+}
+
+.nav-links a{
+    text-decoration:none;
+    color:#344054;
     font-weight:bold;
 }
 
-nav a{
-    color:white;
-    text-decoration:none;
-    margin-right:20px;
+.nav-links a:hover{
+    color:#155eef;
 }
 
 .hero{
-    max-width:1100px;
+    max-width:1150px;
     margin:auto;
-    padding:90px 20px;
-    text-align:center;
+    min-height:650px;
+    padding:100px 20px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:50px;
+}
+
+.hero-text{
+    flex:1;
+}
+
+.badge{
+    display:inline-block;
+    background:#e8f0ff;
+    color:#155eef;
+    padding:7px 15px;
+    border-radius:30px;
+    margin-bottom:20px;
+    font-weight:bold;
 }
 
 .hero h1{
-    font-size:42px;
-    margin-bottom:20px;
+    font-size:52px;
+    line-height:1.3;
+    margin-bottom:25px;
+}
+
+.hero h1 span{
+    color:#155eef;
 }
 
 .hero p{
     font-size:20px;
-    color:#526078;
-    margin-bottom:30px;
+    color:#667085;
+    margin-bottom:35px;
+    max-width:650px;
 }
 
-.button{
+.buttons{
+    display:flex;
+    gap:15px;
+    flex-wrap:wrap;
+}
+
+.btn{
     display:inline-block;
-    background:#0b5cff;
-    color:white;
-    padding:14px 30px;
+    padding:14px 28px;
     border-radius:10px;
     text-decoration:none;
-    font-size:18px;
+    font-weight:bold;
+    font-size:17px;
 }
 
-section{
-    max-width:1100px;
-    margin:auto;
-    padding:60px 20px;
+.btn-primary{
+    background:#155eef;
+    color:white;
 }
 
-.title{
-    text-align:center;
-    margin-bottom:35px;
-}
-
-.cards{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:20px;
-}
-
-.card{
+.btn-secondary{
     background:white;
-    padding:30px;
-    border-radius:15px;
-    box-shadow:0 5px 20px rgba(0,0,0,.08);
+    color:#155eef;
+    border:1px solid #d0d5dd;
 }
 
-.card h3{
+.hero-card{
+    flex:0 0 390px;
+    background:white;
+    border-radius:25px;
+    padding:35px;
+    box-shadow:0 15px 45px rgba(16,24,40,.12);
+}
+
+.ai-icon{
+    width:75px;
+    height:75px;
+    border-radius:20px;
+    background:#e8f0ff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:40px;
+    margin-bottom:20px;
+}
+
+.hero-card h3{
+    font-size:25px;
     margin-bottom:10px;
 }
 
-.contact{
-    text-align:center;
-    background:#eaf1ff;
+.hero-card p{
+    color:#667085;
+}
+
+.stats{
+    max-width:1000px;
+    margin:-20px auto 70px;
+    padding:0 20px;
+}
+
+.stats-box{
+    background:#155eef;
+    color:white;
     border-radius:20px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    padding:30px;
+    text-align:center;
+}
+
+.stat h3{
+    font-size:30px;
+}
+
+section{
+    padding:80px 20px;
+}
+
+.section-container{
+    max-width:1150px;
+    margin:auto;
+}
+
+.section-title{
+    text-align:center;
+    margin-bottom:50px;
+}
+
+.section-title h2{
+    font-size:38px;
+    margin-bottom:10px;
+}
+
+.section-title p{
+    color:#667085;
+    font-size:18px;
+}
+
+.services{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:25px;
+}
+
+.service{
+    background:white;
+    padding:35px;
+    border-radius:18px;
+    border:1px solid #eaecf0;
+    transition:.3s;
+}
+
+.service:hover{
+    transform:translateY(-6px);
+    box-shadow:0 15px 35px rgba(16,24,40,.1);
+}
+
+.service-icon{
+    font-size:38px;
+    margin-bottom:15px;
+}
+
+.service h3{
+    font-size:23px;
+    margin-bottom:10px;
+}
+
+.service p{
+    color:#667085;
+}
+
+.steps{
+    background:#eef4ff;
+}
+
+.step-list{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:25px;
+}
+
+.step{
+    background:white;
+    padding:30px;
+    border-radius:18px;
+}
+
+.number{
+    width:45px;
+    height:45px;
+    background:#155eef;
+    color:white;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:20px;
+    font-weight:bold;
+    margin-bottom:20px;
+}
+
+.contact-box{
+    background:#101828;
+    color:white;
+    padding:60px 30px;
+    border-radius:25px;
+    text-align:center;
+}
+
+.contact-box h2{
+    font-size:38px;
+    margin-bottom:15px;
+}
+
+.contact-box p{
+    color:#d0d5dd;
+    margin-bottom:30px;
 }
 
 footer{
+    background:#080d18;
+    color:#98a2b3;
     text-align:center;
-    padding:30px;
-    background:#101828;
-    color:white;
-    margin-top:40px;
+    padding:30px 20px;
+}
+
+@media(max-width:800px){
+
+    .nav-links{
+        display:none;
+    }
+
+    .hero{
+        flex-direction:column;
+        text-align:center;
+        padding-top:70px;
+    }
+
+    .hero h1{
+        font-size:38px;
+    }
+
+    .hero p{
+        font-size:18px;
+    }
+
+    .buttons{
+        justify-content:center;
+    }
+
+    .hero-card{
+        width:100%;
+        flex:auto;
+    }
+
+    .stats-box{
+        grid-template-columns:1fr;
+        gap:20px;
+    }
+
+    .services,
+    .step-list{
+        grid-template-columns:1fr;
+    }
+
+    .section-title h2{
+        font-size:30px;
+    }
+
 }
 
 </style>
 </head>
+
 
 <body>
 
@@ -126,13 +349,16 @@ footer{
 <nav>
 
 <div class="logo">
-موقعي الذكي
+🤖 ذكي تك
 </div>
 
-<div>
+<div class="nav-links">
+
 <a href="#home">الرئيسية</a>
 <a href="#services">الخدمات</a>
+<a href="#how">كيف نعمل؟</a>
 <a href="#contact">تواصل معنا</a>
+
 </div>
 
 </nav>
@@ -142,96 +368,337 @@ footer{
 
 <main>
 
+<!-- HERO -->
+
 <section class="hero" id="home">
 
+<div class="hero-text">
+
+<div class="badge">
+🚀 مستقبل عملك يبدأ هنا
+</div>
+
 <h1>
-حلول ذكية لعملك باستخدام الذكاء الاصطناعي
+نحوّل أفكارك إلى
+<span>حلول ذكية</span>
 </h1>
 
 <p>
-نساعد أصحاب الأعمال على إنشاء مواقع إلكترونية احترافية
-وتقديم خدمات رقمية بطريقة بسيطة وذكية.
+نساعد أصحاب الأعمال على بناء مواقع احترافية
+واستخدام الذكاء الاصطناعي لتطوير أعمالهم
+وتحسين تجربة عملائهم.
 </p>
 
-<a class="button" href="#contact">
-ابدأ الآن
+<div class="buttons">
+
+<a class="btn btn-primary" href="#contact">
+ابدأ مشروعك
 </a>
 
-</section>
-
-
-<section id="services">
-
-<div class="title">
-
-<h2>
-خدماتنا
-</h2>
-
-<p>
-حلول رقمية تساعدك على تطوير عملك
-</p>
-
-</div>
-
-
-<div class="cards">
-
-<div class="card">
-
-<h3>🌐 تصميم المواقع</h3>
-
-<p>
-إنشاء مواقع احترافية وسريعة ومتوافقة مع الهاتف.
-</p>
-
-</div>
-
-
-<div class="card">
-
-<h3>🤖 الذكاء الاصطناعي</h3>
-
-<p>
-إضافة أدوات ذكاء اصطناعي تساعدك في خدمة العملاء.
-</p>
-
-</div>
-
-
-<div class="card">
-
-<h3>📱 خدمات العملاء</h3>
-
-<p>
-تسهيل التواصل مع العملاء واستقبال طلباتهم.
-</p>
+<a class="btn btn-secondary" href="#services">
+اكتشف خدماتنا
+</a>
 
 </div>
 
 </div>
 
-</section>
 
+<div class="hero-card">
 
-<section id="contact">
+<div class="ai-icon">
+🤖
+</div>
 
-<div class="contact">
-
-<h2>
-هل تريد تطوير عملك؟
-</h2>
+<h3>
+مساعدك الذكي
+</h3>
 
 <p>
-تواصل معنا لمعرفة كيف يمكننا مساعدتك.
+حلول تعتمد على الذكاء الاصطناعي
+لمساعدتك في خدمة العملاء
+وتنظيم أعمالك وتوفير الوقت.
 </p>
 
 <br>
 
-<a class="button"
-href="https://wa.me/967774155708">
-تواصل عبر واتساب
+<p>
+⚡ سريع &nbsp; 🔒 آمن &nbsp; 📱 متوافق مع الهاتف
+</p>
+
+</div>
+
+</section>
+
+
+<!-- STATS -->
+
+<div class="stats">
+
+<div class="stats-box">
+
+<div class="stat">
+<h3>24/7</h3>
+<p>خدمة ذكية</p>
+</div>
+
+<div class="stat">
+<h3>100%</h3>
+<p>حلول رقمية</p>
+</div>
+
+<div class="stat">
+<h3>AI</h3>
+<p>تقنيات حديثة</p>
+</div>
+
+</div>
+
+</div>
+
+
+<!-- SERVICES -->
+
+<section id="services">
+
+<div class="section-container">
+
+<div class="section-title">
+
+<h2>
+ماذا نقدم؟
+</h2>
+
+<p>
+خدمات رقمية تساعد عملك على النمو
+</p>
+
+</div>
+
+
+<div class="services">
+
+
+<div class="service">
+
+<div class="service-icon">
+🌐
+</div>
+
+<h3>
+تصميم المواقع
+</h3>
+
+<p>
+نصمم مواقع سريعة واحترافية ومتوافقة
+مع الهواتف وأجهزة الكمبيوتر.
+</p>
+
+</div>
+
+
+<div class="service">
+
+<div class="service-icon">
+🤖
+</div>
+
+<h3>
+مساعد الذكاء الاصطناعي
+</h3>
+
+<p>
+مساعد ذكي يستطيع الإجابة على أسئلة
+العملاء وتقديم المعلومات تلقائيًا.
+</p>
+
+</div>
+
+
+<div class="service">
+
+<div class="service-icon">
+⚙️
+</div>
+
+<h3>
+أتمتة الأعمال
+</h3>
+
+<p>
+نساعدك على تحويل المهام المتكررة
+إلى عمليات آلية توفر الوقت والجهد.
+</p>
+
+</div>
+
+
+<div class="service">
+
+<div class="service-icon">
+📅
+</div>
+
+<h3>
+الحجوزات
+</h3>
+
+<p>
+أنظمة تساعد عملاءك على إرسال طلبات
+الحجز والتواصل معك بسهولة.
+</p>
+
+</div>
+
+
+<div class="service">
+
+<div class="service-icon">
+💬
+</div>
+
+<h3>
+خدمة العملاء
+</h3>
+
+<p>
+تنظيم أسئلة العملاء وتقديم إجابات
+سريعة على مدار الساعة.
+</p>
+
+</div>
+
+
+<div class="service">
+
+<div class="service-icon">
+📊
+</div>
+
+<h3>
+حلول مخصصة
+</h3>
+
+<p>
+نبني حلولًا رقمية حسب احتياجات
+مشروعك وطبيعة عملك.
+</p>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- HOW -->
+
+<section class="steps" id="how">
+
+<div class="section-container">
+
+<div class="section-title">
+
+<h2>
+كيف نعمل؟
+</h2>
+
+<p>
+ثلاث خطوات بسيطة
+</p>
+
+</div>
+
+
+<div class="step-list">
+
+
+<div class="step">
+
+<div class="number">
+1
+</div>
+
+<h3>
+نتعرف على احتياجك
+</h3>
+
+<p>
+نحدد المشكلة التي تريد حلها
+والخدمة التي يحتاجها مشروعك.
+</p>
+
+</div>
+
+
+<div class="step">
+
+<div class="number">
+2
+</div>
+
+<h3>
+نبني الحل
+</h3>
+
+<p>
+نستخدم أدوات البرمجة والذكاء الاصطناعي
+لبناء الحل المناسب.
+</p>
+
+</div>
+
+
+<div class="step">
+
+<div class="number">
+3
+</div>
+
+<h3>
+تبدأ العمل
+</h3>
+
+<p>
+نجهز المشروع ليكون جاهزًا للاستخدام
+من عملائك.
+</p>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- CONTACT -->
+
+<section id="contact">
+
+<div class="section-container">
+
+<div class="contact-box">
+
+<h2>
+لديك فكرة؟
+</h2>
+
+<p>
+دعنا نحولها إلى مشروع رقمي حقيقي.
+</p>
+
+<a class="btn btn-primary"
+href="https://wa.me/967XXXXXXXXX">
+💬 تواصل عبر واتساب
 </a>
+
+</div>
 
 </div>
 
@@ -242,9 +709,17 @@ href="https://wa.me/967774155708">
 
 <footer>
 
-© 2026 موقعي الذكي - جميع الحقوق محفوظة
+<p>
+© 2026 ذكي تك — جميع الحقوق محفوظة
+</p>
+
+<p>
+صُنع باستخدام أدوات الذكاء الاصطناعي
+</p>
 
 </footer>
 
+
 </body>
-</html>
+
+    </html>
