@@ -872,9 +872,7 @@ async function sendMessage() {
   messages.innerHTML += `
     <div class="bot-message" id="loading">جاري التفكير...</div>
   `;
-
-  const WORKER_URL = https://super-heart-baa9.naseem774155708.workers.dev;
-
+const WORKER_URL = "https://super-heart-baa9.naseem774155708.workers.dev";
   try {
     const response = await fetch(WORKER_URL, {
       method: "POST",
