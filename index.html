@@ -349,7 +349,7 @@ footer{
 <nav>
 
 <div class="logo">
-🤖 ذكي تك
+🤖 نسيم تك
 </div>
 
 <div class="nav-links">
@@ -855,55 +855,52 @@ function toggleChat(){
     }else{
         chat.style.display = "none";
     }
+async function sendMessage() {
+  const input = document.getElementById("chatInput");
+  const messages = document.getElementById("chatMessages");
 
+  const message = input.value.trim();
+
+  if (!message) return;
+
+  messages.innerHTML += `
+    <div class="user-message">${message}</div>
+  `;
+
+  input.value = "";
+
+  messages.innerHTML += `
+    <div class="bot-message" id="loading">جاري التفكير...</div>
+  `;
+
+  const WORKER_URL = "https://super-heart-baa9.naseem774155708.workers.dev";
+
+  try {
+    const response = await fetch(WORKER_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        message: message
+      })
+    });
+
+    const data = await response.json();
+
+    document.getElementById("loading").remove();
+
+    messages.innerHTML += `
+      <div class="bot-message">${data.reply}</div>
+    `;
+
+  } catch (error) {
+
+    document.getElementById("loading").textContent =
+      "تعذر الاتصال بالذكاء الاصطناعي.";
+
+  }
+    }
 }
 
 
-function sendMessage(){
-
-    const input = document.getElementById("user-message");
-
-    const message = input.value.trim();
-
-    if(message === "") return;
-
-    const messages = document.getElementById("chat-messages");
-
-    messages.innerHTML +=
-        '<div class="user-message">' +
-        message +
-        '</div>';
-
-    let reply =
-        "شكرًا لسؤالك 👋 يمكنك التواصل معنا لمعرفة المزيد عن خدمات ذكي تك.";
-
-    if(message.includes("خدمات")){
-        reply =
-        "نقدم تصميم المواقع، حلول الذكاء الاصطناعي، أتمتة الأعمال وخدمات العملاء.";
-    }
-
-    if(message.includes("موقع")){
-        reply =
-        "نستطيع إنشاء مواقع احترافية ومتوافقة مع الهاتف.";
-    }
-
-    if(message.includes("ذكاء")){
-        reply =
-        "نقدم حلولًا تعتمد على الذكاء الاصطناعي لمساعدة أصحاب الأعمال.";
-    }
-
-    messages.innerHTML +=
-        '<div class="bot-message">' +
-        reply +
-        '</div>';
-
-    input.value = "";
-
-    messages.scrollTop = messages.scrollHeight;
-
-}
-
-    </script>
-</body>
-
-    </html>
