@@ -859,51 +859,49 @@ function toggleChat(){
 }
 
 
-function sendMessage(){
+async function sendMessage() {
+  const input = document.getElementById("chatInput");
+  const messages = document.getElementById("chatMessages");
 
-    const input = document.getElementById("user-message");
+  const message = input.value.trim();
 
-    const message = input.value.trim();
+  if (!message) return;
 
-    if(message === "") return;
+  messages.innerHTML += `
+    <div class="user-message">${message}</div>
+  `;
 
-    const messages = document.getElementById("chat-messages");
+  input.value = "";
 
-    messages.innerHTML +=
-        '<div class="user-message">' +
-        message +
-        '</div>';
+  messages.innerHTML += `
+    <div class="bot-message" id="loading">جاري التفكير...</div>
+  `;
 
-    let reply =
-        "شكرًا لسؤالك 👋 يمكنك التواصل معنا لمعرفة المزيد عن خدمات ذكي تك.";
+  const WORKER_URL = "https://super-heart-baa9.naseem774155708.workers.dev";
 
-    if(message.includes("خدمات")){
-        reply =
-        "نقدم تصميم المواقع، حلول الذكاء الاصطناعي، أتمتة الأعمال وخدمات العملاء.";
+  try {
+    const response = await fetch(WORKER_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        message: message
+      })
+    });
+
+    const data = await response.json();
+
+    document.getElementById("loading").remove();
+
+    messages.innerHTML += `
+      <div class="bot-message">${data.reply}</div>
+    `;
+
+  } catch (error) {
+
+    document.getElementById("loading").textContent =
+      "تعذر الاتصال بالذكاء الاصطناعي.";
+
+  }
     }
-
-    if(message.includes("موقع")){
-        reply =
-        "نستطيع إنشاء مواقع احترافية ومتوافقة مع الهاتف.";
-    }
-
-    if(message.includes("ذكاء")){
-        reply =
-        "نقدم حلولًا تعتمد على الذكاء الاصطناعي لمساعدة أصحاب الأعمال.";
-    }
-
-    messages.innerHTML +=
-        '<div class="bot-message">' +
-        reply +
-        '</div>';
-
-    input.value = "";
-
-    messages.scrollTop = messages.scrollHeight;
-
-}
-
-</script>
-</body>
-
-    </html>
