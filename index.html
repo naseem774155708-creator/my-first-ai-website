@@ -594,7 +594,7 @@ href="https://wa.me/967774155708">
 <div id="chatbot">
 
     <div id="chat-header">
-        🤖 مساعد ذكي تك
+        🤖 مساعد نسيم تك
         <button onclick="toggleChat()">×</button>
     </div>
 
@@ -672,10 +672,7 @@ href="https://wa.me/967774155708">
     padding:10px;
     border-top:1px solid #eee;
 }
-<!-- AI CHATBOT --><div id="chatbot"><div id="chat-header">
-    🤖 مساعد ذكي تك
-    <button onclick="toggleChat()">×</button>
-</div>
+
 
 <div id="chat-messages">
     <div class="bot-message">
@@ -982,50 +979,3 @@ function toggleChat() {
   }
 }
 
-async function sendMessage() {
-  const input = document.getElementById("chatInput");
-  const messages = document.getElementById("chatMessages");
-
-  const message = input.value.trim();
-
-  if (!message) return;
-
-  messages.innerHTML += `
-    <div class="user-message">${message}</div>
-  `;
-
-  input.value = "";
-
-  messages.innerHTML += `
-    <div class="bot-message" id="loading">جاري التفكير...</div>
-  `;
-
-  const WORKER_URL =
-    "https://super-heart-baa9.naseem774155708.workers.dev";
-
-  try {
-    const response = await fetch(WORKER_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        message: message
-      })
-    });
-
-    const data = await response.json();
-
-    document.getElementById("loading").remove();
-
-    messages.innerHTML += `
-      <div class="bot-message">${data.reply}</div>
-    `;
-
-  } catch (error) {
-    document.getElementById("loading").textContent =
-      "تعذر الاتصال بالذكاء الاصطناعي.";
-  }
-    }
-    
-        
