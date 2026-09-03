@@ -846,15 +846,16 @@ href="https://wa.me/967774155708">
 
 <script>
 
-function toggleChat(){
+function toggleChat() {
+  const chat = document.getElementById("chatbot");
 
-    const chat = document.getElementById("chatbot");
+  if (chat.style.display === "none" || chat.style.display === "") {
+    chat.style.display = "block";
+  } else {
+    chat.style.display = "none";
+  }
+}
 
-    if(chat.style.display === "none" || chat.style.display === ""){
-        chat.style.display = "block";
-    }else{
-        chat.style.display = "none";
-    }
 async function sendMessage() {
   const input = document.getElementById("chatInput");
   const messages = document.getElementById("chatMessages");
@@ -872,7 +873,10 @@ async function sendMessage() {
   messages.innerHTML += `
     <div class="bot-message" id="loading">جاري التفكير...</div>
   `;
-const WORKER_URL = "https://super-heart-baa9.naseem774155708.workers.dev";
+
+  const WORKER_URL =
+    "https://super-heart-baa9.naseem774155708.workers.dev";
+
   try {
     const response = await fetch(WORKER_URL, {
       method: "POST",
@@ -893,9 +897,8 @@ const WORKER_URL = "https://super-heart-baa9.naseem774155708.workers.dev";
     `;
 
   } catch (error) {
-
     document.getElementById("loading").textContent =
       "تعذر الاتصال بالذكاء الاصطناعي.";
-
   }
     }
+
