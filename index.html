@@ -858,6 +858,8 @@ function toggleChat(){
 
 }
 
+let chatHistory = [];
+
 async function sendMessage(){
 
     const input = document.getElementById("user-message");
@@ -884,11 +886,6 @@ async function sendMessage(){
 
     try {
 
-        // حفظ سياق المحادثة
-        if(!window.chatHistory){
-            window.chatHistory = [];
-        }
-
         const response = await fetch(
             "https://super-heart-baa9.naseem774155708.workers.dev",
             {
@@ -900,7 +897,7 @@ async function sendMessage(){
 
                 body: JSON.stringify({
                     message: message,
-                    history: window.chatHistory
+                    history: chatHistory
                 })
             }
         );
@@ -913,13 +910,12 @@ async function sendMessage(){
 
             loading.innerText = data.reply;
 
-            // إضافة السؤال والجواب إلى سياق المحادثة
-            window.chatHistory.push({
+            chatHistory.push({
                 role: "user",
                 content: message
             });
 
-            window.chatHistory.push({
+            chatHistory.push({
                 role: "assistant",
                 content: data.reply
             });
@@ -943,6 +939,7 @@ async function sendMessage(){
     messages.scrollTop = messages.scrollHeight;
 
     }
+        
 
 </script>
 </body>
