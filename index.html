@@ -858,24 +858,115 @@ function toggleChat(){
 
 }
 
-let chatHistory = [];
 
-async function sendMessage(){
+/* =========================
+   حفظ واستعادة المحادثة
+========================= */
 
-    const input = document.getElementById("user-message");
+let chatHistory = JSON.parse(
+    localStorage.getItem("naseemTechChatHistory") || "[]"
+);
 
-    const message = input.value.trim();
+let isSending = false;
 
-    if(message === "") return;
+
+/* =========================
+   رسالة الترحيب
+========================= */
+
+document.addEventListener("DOMContentLoaded", function(){
 
     const messages = document.getElementById("chat-messages");
 
+    if(!messages) return;
+
+    if(chatHistory.length > 0){
+
+        chatHistory.forEach(function(item){
+
+            if(item.role === "user"){
+
+                messages.innerHTML +=
+                    '<div class="user-message">' +
+                    escapeHTML(item.content) +
+                    '</div>';
+
+            }
+
+            if(item.role === "assistant"){
+
+                messages.innerHTML +=
+                    '<div class="bot-message">' +
+                    escapeHTML(item.content) +
+                    '</div>';
+
+            }
+
+        });
+
+    }else{
+
+        messages.innerHTML =
+            '<div class="bot-message">' +
+            'مرحبًا بك في نسيم تك 👋<br>' +
+            'أنا المساعد الذكي لنسيم تك.<br>' +
+            'كيف يمكنني مساعدتك اليوم؟' +
+            '</div>';
+
+    }
+
+    messages.scrollTop = messages.scrollHeight;
+
+});
+
+
+/* =========================
+   حماية النص المعروض
+========================= */
+
+function escapeHTML(text){
+
+    const div = document.createElement("div");
+
+    div.textContent = text;
+
+    return div.innerHTML;
+
+}
+
+
+/* =========================
+   إرسال الرسالة
+========================= */
+
+async function sendMessage(){
+
+    if(isSending) return;
+
+    const input = document.getElementById("user-message");
+
+    const messages = document.getElementById("chat-messages");
+
+    if(!input || !messages) return;
+
+    const message = input.value.trim();
+
+    /* منع الرسالة الفارغة */
+
+    if(message === "") return;
+
+    isSending = true;
+
+    /* إضافة رسالة المستخدم */
+
     messages.innerHTML +=
         '<div class="user-message">' +
-        message +
+        escapeHTML(message) +
         '</div>';
 
     input.value = "";
+
+    /* مؤشر التفكير */
 
     messages.innerHTML +=
         '<div class="bot-message" id="loading-message">' +
@@ -883,6 +974,7 @@ async function sendMessage(){
         '</div>';
 
     messages.scrollTop = messages.scrollHeight;
+
 
     try {
 
@@ -896,52 +988,144 @@ async function sendMessage(){
                 },
 
                 body: JSON.stringify({
+
                     message: message,
+
                     history: chatHistory
+
                 })
+
             }
         );
 
+
+        /* فحص الاتصال */
+
+        if(!response.ok){
+
+            throw new Error(
+                "HTTP Error: " + response.status
+            );
+
+        }
+
+
         const data = await response.json();
 
-        const loading = document.getElementById("loading-message");
+        const loading =
+            document.getElementById("loading-message");
+
+
+        /* الرد ناجح */
 
         if(data.reply){
 
             loading.innerText = data.reply;
 
+
+            /* حفظ المحادثة */
+
             chatHistory.push({
+
                 role: "user",
+
                 content: message
+
             });
+
 
             chatHistory.push({
+
                 role: "assistant",
+
                 content: data.reply
+
             });
 
-        } else {
+
+            /* حفظ المحادثة داخل المتصفح */
+
+            localStorage.setItem(
+
+                "naseemTechChatHistory",
+
+                JSON.stringify(chatHistory)
+
+            );
+
+
+        }else{
 
             loading.innerText =
                 "عذرًا، لم أتمكن من الحصول على إجابة.";
+
         }
 
-    } catch(error) {
 
-        const loading = document.getElementById("loading-message");
+    }catch(error){
 
-        loading.innerText =
-            "حدث خطأ في الاتصال بالذكاء الاصطناعي. حاول مرة أخرى.";
+        const loading =
+            document.getElementById("loading-message");
+
+
+        if(loading){
+
+            loading.innerText =
+                "حدث خطأ في الاتصال بالذكاء الاصطناعي. حاول مرة أخرى.";
+
+        }
+
 
         console.error(error);
-    }
-
-    messages.scrollTop = messages.scrollHeight;
 
     }
+
+
+    /* التمرير لآخر رسالة */
+
+    messages.scrollTop =
+        messages.scrollHeight;
+
+
+    /* السماح بإرسال رسالة جديدة */
+
+    isSending = false;
+
+}
+
+
+/* =========================
+   زر Enter للإرسال
+========================= */
+
+document.addEventListener("DOMContentLoaded", function(){
+
+    const input =
+        document.getElementById("user-message");
+
+    if(!input) return;
+
+    input.addEventListener(
+        "keydown",
+        function(event){
+
+            if(event.key === "Enter"){
+
+                event.preventDefault();
+
+                sendMessage();
+
+            }
+
+        }
+    );
+
+});
+
+    </script>
+
         
 
-</script>
 </body>
 
     </html>
