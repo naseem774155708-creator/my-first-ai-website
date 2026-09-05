@@ -860,7 +860,28 @@ function toggleChat(){
 
 
 /* =========================
-   حفظ واستعادة المحادثة
+   معرف العميل
+========================= */
+
+let clientId =
+    localStorage.getItem("naseemTechClientId");
+
+if(!clientId){
+
+    clientId =
+        "client-" +
+        crypto.randomUUID();
+
+    localStorage.setItem(
+        "naseemTechClientId",
+        clientId
+    );
+
+}
+
+
+/* =========================
+   حفظ المحادثة
 ========================= */
 
 let chatHistory = JSON.parse(
@@ -876,7 +897,8 @@ let isSending = false;
 
 document.addEventListener("DOMContentLoaded", function(){
 
-    const messages = document.getElementById("chat-messages");
+    const messages =
+        document.getElementById("chat-messages");
 
     if(!messages) return;
 
@@ -915,18 +937,20 @@ document.addEventListener("DOMContentLoaded", function(){
 
     }
 
-    messages.scrollTop = messages.scrollHeight;
+    messages.scrollTop =
+        messages.scrollHeight;
 
 });
 
 
 /* =========================
-   حماية النص المعروض
+   حماية النص
 ========================= */
 
 function escapeHTML(text){
 
-    const div = document.createElement("div");
+    const div =
+        document.createElement("div");
 
     div.textContent = text;
 
@@ -943,21 +967,30 @@ async function sendMessage(){
 
     if(isSending) return;
 
-    const input = document.getElementById("user-message");
+    const input =
+        document.getElementById("user-message");
 
-    const messages = document.getElementById("chat-messages");
+    const messages =
+        document.getElementById("chat-messages");
 
     if(!input || !messages) return;
 
-    const message = input.value.trim();
-
-    /* منع الرسالة الفارغة */
+    const message =
+        input.value.trim();
 
     if(message === "") return;
 
-    isSending = true;
+    if(message.length > 2000){
 
-    /* إضافة رسالة المستخدم */
+        alert(
+            "الرسالة طويلة جدًا. يرجى اختصارها."
+        );
+
+        return;
+
+    }
+
+    isSending = true;
 
     messages.innerHTML +=
         '<div class="user-message">' +
@@ -966,14 +999,13 @@ async function sendMessage(){
 
     input.value = "";
 
-    /* مؤشر التفكير */
-
     messages.innerHTML +=
         '<div class="bot-message" id="loading-message">' +
         'جاري التفكير... 🤖' +
         '</div>';
 
-    messages.scrollTop = messages.scrollHeight;
+    messages.scrollTop =
+        messages.scrollHeight;
 
 
     try {
@@ -991,6 +1023,8 @@ async function sendMessage(){
 
                     message: message,
 
+                    clientId: clientId,
+
                     history: chatHistory
 
                 })
@@ -999,31 +1033,30 @@ async function sendMessage(){
         );
 
 
-        /* فحص الاتصال */
-
         if(!response.ok){
 
             throw new Error(
-                "HTTP Error: " + response.status
+                "HTTP Error: " +
+                response.status
             );
 
         }
 
 
-        const data = await response.json();
+        const data =
+            await response.json();
 
         const loading =
-            document.getElementById("loading-message");
+            document.getElementById(
+                "loading-message"
+            );
 
-
-        /* الرد ناجح */
 
         if(data.reply){
 
-            loading.innerText = data.reply;
+            loading.innerText =
+                data.reply;
 
-
-            /* حفظ المحادثة */
 
             chatHistory.push({
 
@@ -1043,7 +1076,9 @@ async function sendMessage(){
             });
 
 
-            /* حفظ المحادثة داخل المتصفح */
+            chatHistory =
+                chatHistory.slice(-20);
+
 
             localStorage.setItem(
 
@@ -1052,6 +1087,19 @@ async function sendMessage(){
                 JSON.stringify(chatHistory)
 
             );
+
+
+            if(data.clientId){
+
+                clientId =
+                    data.clientId;
+
+                localStorage.setItem(
+                    "naseemTechClientId",
+                    clientId
+                );
+
+            }
 
 
         }else{
@@ -1065,8 +1113,9 @@ async function sendMessage(){
     }catch(error){
 
         const loading =
-            document.getElementById("loading-message");
-
+            document.getElementById(
+                "loading-message"
+            );
 
         if(loading){
 
@@ -1075,19 +1124,13 @@ async function sendMessage(){
 
         }
 
-
         console.error(error);
 
     }
 
 
-    /* التمرير لآخر رسالة */
-
     messages.scrollTop =
         messages.scrollHeight;
-
-
-    /* السماح بإرسال رسالة جديدة */
 
     isSending = false;
 
@@ -1095,36 +1138,39 @@ async function sendMessage(){
 
 
 /* =========================
-   زر Enter للإرسال
+   زر Enter
 ========================= */
 
-document.addEventListener("DOMContentLoaded", function(){
+document.addEventListener(
+    "DOMContentLoaded",
+    function(){
 
-    const input =
-        document.getElementById("user-message");
+        const input =
+            document.getElementById(
+                "user-message"
+            );
 
-    if(!input) return;
+        if(!input) return;
 
-    input.addEventListener(
-        "keydown",
-        function(event){
+        input.addEventListener(
+            "keydown",
+            function(event){
 
-            if(event.key === "Enter"){
+                if(event.key === "Enter"){
 
-                event.preventDefault();
+                    event.preventDefault();
 
-                sendMessage();
+                    sendMessage();
+
+                }
 
             }
+        );
 
-        }
-    );
+    }
+);
 
-});
-
-    </script>
-
-        
+    </script>                
 
 </body>
 
