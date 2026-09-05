@@ -877,11 +877,15 @@ if(!clientId){
         clientId
     );
 
+    localStorage.removeItem(
+        "naseemTechChatHistory"
+    );
+
 }
 
 
 /* =========================
-   حفظ المحادثة
+   حفظ المحادثة للعرض
 ========================= */
 
 let chatHistory = JSON.parse(
@@ -889,58 +893,6 @@ let chatHistory = JSON.parse(
 );
 
 let isSending = false;
-
-
-/* =========================
-   رسالة الترحيب
-========================= */
-
-document.addEventListener("DOMContentLoaded", function(){
-
-    const messages =
-        document.getElementById("chat-messages");
-
-    if(!messages) return;
-
-    if(chatHistory.length > 0){
-
-        chatHistory.forEach(function(item){
-
-            if(item.role === "user"){
-
-                messages.innerHTML +=
-                    '<div class="user-message">' +
-                    escapeHTML(item.content) +
-                    '</div>';
-
-            }
-
-            if(item.role === "assistant"){
-
-                messages.innerHTML +=
-                    '<div class="bot-message">' +
-                    escapeHTML(item.content) +
-                    '</div>';
-
-            }
-
-        });
-
-    }else{
-
-        messages.innerHTML =
-            '<div class="bot-message">' +
-            'مرحبًا بك في نسيم تك 👋<br>' +
-            'أنا المساعد الذكي لنسيم تك.<br>' +
-            'كيف يمكنني مساعدتك اليوم؟' +
-            '</div>';
-
-    }
-
-    messages.scrollTop =
-        messages.scrollHeight;
-
-});
 
 
 /* =========================
@@ -960,15 +912,64 @@ function escapeHTML(text){
 
 
 /* =========================
+   رسالة الترحيب
+========================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function(){
+
+        const messages =
+            document.getElementById("chat-messages");
+
+        if(!messages) return;
+
+        if(chatHistory.length > 0){
+
+            chatHistory.forEach(function(item){
+
+                if(item.role === "user"){
+
+                    messages.innerHTML +=
+                        '<div class="user-message">' +
+                        escapeHTML(item.content) +
+                        '</div>';
+
+                }
+
+                if(item.role === "assistant"){
+
+                    messages.innerHTML +=
+                        '<div class="bot-message">' +
+                        escapeHTML(item.content) +
+                        '</div>';
+
+                }
+
+            });
+
+        }else{
+
+            messages.innerHTML =
+                '<div class="bot-message">' +
+                'مرحبًا بك في نسيم تك 👋<br>' +
+                'أنا المساعد الذكي لنسيم تك.<br>' +
+                'كيف يمكنني مساعدتك اليوم؟' +
+                '</div>';
+
+        }
+
+        messages.scrollTop =
+            messages.scrollHeight;
+
+    }
+);
+
+
+/* =========================
    إرسال الرسالة
 ========================= */
-let clientId = localStorage.getItem("naseemTechClientId");
 
-if (!clientId) {
-    clientId = "client-" + crypto.randomUUID();
-    localStorage.setItem("naseemTechClientId", clientId);
-    localStorage.removeItem("naseemTechChatHistory");
-    }
 async function sendMessage(){
 
     if(isSending) return;
@@ -1026,9 +1027,9 @@ async function sendMessage(){
                 },
 
                 body: JSON.stringify({
-    message: message,
-    clientId: clientId
-})
+                    message: message,
+                    clientId: clientId
+                })
             }
         );
 
@@ -1045,10 +1046,25 @@ async function sendMessage(){
 
         const data =
             await response.json();
-if (data.clientId) {
-    clientId = data.clientId;
-    localStorage.setItem("naseemTechClientId", clientId);
-    }
+
+
+        /* =========================
+           تحديث معرف العميل
+        ========================= */
+
+        if(data.clientId){
+
+            clientId =
+                data.clientId;
+
+            localStorage.setItem(
+                "naseemTechClientId",
+                clientId
+            );
+
+        }
+
+
         const loading =
             document.getElementById(
                 "loading-message"
@@ -1057,9 +1073,17 @@ if (data.clientId) {
 
         if(data.reply){
 
-            loading.innerText =
-                data.reply;
+            if(loading){
 
+                loading.innerText =
+                    data.reply;
+
+            }
+
+
+            /* =========================
+               حفظ المحادثة للعرض فقط
+            ========================= */
 
             chatHistory.push({
 
@@ -1092,23 +1116,14 @@ if (data.clientId) {
             );
 
 
-            if(data.clientId){
-
-                clientId =
-                    data.clientId;
-
-                localStorage.setItem(
-                    "naseemTechClientId",
-                    clientId
-                );
-
-            }
-
-
         }else{
 
-            loading.innerText =
-                "عذرًا، لم أتمكن من الحصول على إجابة.";
+            if(loading){
+
+                loading.innerText =
+                    "عذرًا، لم أتمكن من الحصول على إجابة.";
+
+            }
 
         }
 
@@ -1173,7 +1188,8 @@ document.addEventListener(
     }
 );
 
-    </script>                
+    </script>             
+                        
 
 </body>
 
