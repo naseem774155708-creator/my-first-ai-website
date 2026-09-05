@@ -962,7 +962,13 @@ function escapeHTML(text){
 /* =========================
    إرسال الرسالة
 ========================= */
+let clientId = localStorage.getItem("naseemTechClientId");
 
+if (!clientId) {
+    clientId = "client-" + crypto.randomUUID();
+    localStorage.setItem("naseemTechClientId", clientId);
+    localStorage.removeItem("naseemTechChatHistory");
+    }
 async function sendMessage(){
 
     if(isSending) return;
@@ -1020,15 +1026,9 @@ async function sendMessage(){
                 },
 
                 body: JSON.stringify({
-
-                    message: message,
-
-                    clientId: clientId,
-
-                    history: chatHistory
-
-                })
-
+    message: message,
+    clientId: clientId
+})
             }
         );
 
@@ -1045,7 +1045,10 @@ async function sendMessage(){
 
         const data =
             await response.json();
-
+if (data.clientId) {
+    clientId = data.clientId;
+    localStorage.setItem("naseemTechClientId", clientId);
+    }
         const loading =
             document.getElementById(
                 "loading-message"
